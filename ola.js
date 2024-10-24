@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const QRCode = require('qrcode');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // Usar el puerto asignado por Vercel
 const SECRET_KEY = 'your-secret-key';
 const TOKEN_EXPIRATION_TIME = 10; // Segundos
 
@@ -27,7 +27,7 @@ function generateToken() {
 
 // Generar QR que apunta a la ruta de verificación de token en el backend CONTROLLER
 async function generateQRCode(token) {
-  const url = `http://localhost:${PORT}/verify-token?token=${token}`; // URL local para la verificación del token
+  const url = `https://pruebaqr-hsz9gvldy-lautaros-projects-e6a15d17.vercel.app/verify-token?token=${token}`; // Cambiar localhost por la URL del deploy
   return await QRCode.toDataURL(url); // QR ahora genera un link a la ruta de verificación
 }
 
@@ -60,5 +60,5 @@ setInterval(() => {
 }, TOKEN_EXPIRATION_TIME * 1000);
 
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
