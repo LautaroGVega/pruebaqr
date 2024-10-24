@@ -4,12 +4,15 @@ const jwt = require('jsonwebtoken');
 const QRCode = require('qrcode');
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Usar el puerto asignado por Vercel
+const PORT = process.env.PORT || 3000;
 const SECRET_KEY = 'your-secret-key';
 const TOKEN_EXPIRATION_TIME = 10; // Segundos
 
-// Habilitar CORS
-app.use(cors());
+// Habilitar CORS para todos los orígenes o un origen específico
+app.use(cors({
+  origin: 'http://127.0.0.1:4000', // O puedes usar '*' para permitir todos los orígenes
+  methods: ['GET', 'POST'], // Especifica los métodos permitidos
+}));
 
 let currentToken = null;
 
@@ -27,8 +30,8 @@ function generateToken() {
 
 // Generar QR que apunta a la ruta de verificación de token en el backend CONTROLLER
 async function generateQRCode(token) {
-  const url = `https://pruebaqr-hsz9gvldy-lautaros-projects-e6a15d17.vercel.app/verify-token?token=${token}`; // Cambiar localhost por la URL del deploy
-  return await QRCode.toDataURL(url); // QR ahora genera un link a la ruta de verificación
+  const url = `https://pruebaqr-hsz9gvldy-lautaros-projects-e6a15d17.vercel.app/verify-token?token=${token}`;
+  return await QRCode.toDataURL(url); 
 }
 
 // Ruta para obtener el QR ROUTES
