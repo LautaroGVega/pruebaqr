@@ -9,9 +9,13 @@ const SECRET_KEY = 'your-secret-key';
 const TOKEN_EXPIRATION_TIME = 10; // Segundos
 
 // Habilitar CORS para todos los orígenes o un origen específico
+const cors = require('cors');
+
+// Permitir todos los orígenes
 app.use(cors({
-  origin: 'http://127.0.0.1:4000', // O puedes usar '*' para permitir todos los orígenes
-  methods: ['GET', 'POST'], // Especifica los métodos permitidos
+  origin: '*', // Permite cualquier origen
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 let currentToken = null;
